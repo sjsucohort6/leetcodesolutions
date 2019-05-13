@@ -3,28 +3,25 @@ import unittest
 # Given a string, find the length of the longest substring without repeating characters.
 def lengthOfLongestSubstring(s):
     """
-    Algo:
-    1. 2 pointers, start and end - end pointer scans the string forward and moves until there is 
-    no matching char found in a map of chars. 
-    2. When a matching char is found in a map, the start pointer is reset to the char before where end stops.
-    3. Before resetting the start pointer, measure length of non-repeating char string as end - start.
-    4. Maintain a max len and reset the counter everytime a length is found that is greater.
+    Algo: Sliding window approach
+    1. 2 pointers, start and cur.
+    2. start stays at first letter being scanned, cur moves forward from start until a repeating char is found.
+    3. a dict is used to keep letters already found with their position as value.
+    4. scanning continues until max_len is less than remaining chars to be scanned.
+    Time complexity: O(n)
+    Space complexity: O(n) worst case
     """
     max_len = 0
-    char_map = {}
-    start = 0
-    for i in range(0, len(s)):
-        ch = s[i]
-        if ch not in char_map:
-            char_map[ch] = i
-        else:
-            cur_len = len(char_map)
-            start = i 
-            char_map = {}
-            char_map[s[start-1]] = i-1
-            char_map[s[start]] = i
-            max_len = max(cur_len, max_len)
-    return max(max_len, len(char_map))
+    for start in range(0, len(s)):
+        map = {}
+        if max_len < len(s) - start:
+            for cur in range(start, len(s)):
+                if s[cur] not in map:
+                    map[s[cur]] = cur
+                    max_len = max(max_len, len(map))
+                else:
+                    break
+    return max_len
 
 class Test(unittest.TestCase):
     def test_me(self):
@@ -39,14 +36,3 @@ class Test(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-
-# Tests
-# print(lengthOfLongestSubstring("abcabcbb"))
-# print(lengthOfLongestSubstring("bbbbb"))
-# print(lengthOfLongestSubstring('pwwkew'))
-# print(lengthOfLongestSubstring(''))
-# print(lengthOfLongestSubstring('b'))
-# print(lengthOfLongestSubstring('dvdf'))
-# print(lengthOfLongestSubstring("ohomm"))
-# print(lengthOfLongestSubstring("anviaj"))

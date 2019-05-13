@@ -24,5 +24,21 @@ def twoSum(nums, target) :
             map[nums[i]] = i 
     
 
-print(twoSum([2,7,11,15], 9))
-print(twoSum([3,2,4], 6))
+def twoNumberSum(array, targetSum):
+    array.sort()
+    left = 0
+    right = len(array) - 1
+    while left < right:
+        currentSum = array[left] + array[right]
+        if currentSum == targetSum:
+            return [array[left], array[right]]
+        elif currentSum < targetSum:
+            left += 1
+        elif currentSum > targetSum:
+            right -= 1
+    return []
+
+# print(twoSum([2,7,11,15], 9))
+# print(twoSum([3,2,4], 6))
+print(twoSum([4,6], 10))
+print(twoNumberSum([4,6], 10))
